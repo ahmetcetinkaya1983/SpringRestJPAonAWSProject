@@ -1,12 +1,15 @@
 package uk.co.cetinkaya.io.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name = "users")
 public class UserEntity implements Serializable {
@@ -31,11 +34,14 @@ public class UserEntity implements Serializable {
 
 	@Column(nullable = false)
 	private String encryptedPassword;
-	
+
 	private String emailVerificationToken;
 
 	@Column(nullable = false, columnDefinition = "boolean default false")
 	private Boolean emailVerificationStatus = false;
+
+	@OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
+	private List<AddressEntity> addresses;
 
 	public long getId() {
 		return id;
@@ -101,6 +107,13 @@ public class UserEntity implements Serializable {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
 
+	public List<AddressEntity> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressEntity> addresses) {
+		this.addresses = addresses;
+	}
 	
-	
+
 }
